@@ -1,0 +1,13 @@
+entrypoint = "index.js"
+modules = ["bash", "nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["bash", "index.js"]
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
