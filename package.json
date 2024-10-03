@@ -22,6 +22,7 @@
     "g4f": "^1.4.3",
     "kleur": "^4.1.5",
     "knights-canvas": "^1.3.7-a",
+    "nayan-media-downloader": "^2.5.9",
     "path": "^0.12.7",
     "pidusage": "^3.0.2",
     "request": "^2.88.2",
