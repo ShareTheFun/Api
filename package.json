@@ -16,7 +16,7 @@
     "canvas": "^2.11.2",
     "cheerio": "^1.0.0-rc.12",
     "discord-card-canvas": "^1.4.4",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "fs": "^0.0.1-security",
     "fs-extra": "^11.2.0",
     "g4f": "^1.4.3",
