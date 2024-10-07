@@ -3,12 +3,15 @@ const path = require("path");
 const config = require("./config.json");
 const os = require('os');
 const useragent = require('useragent');
+const cors = require('cors'); // Import the CORS middleware
 
 global.config = config;
-global.api = new Map();  // Ensure global.api is initialized here
+global.api = new Map();
 const router = require("./router");
 const app = express();
 
+// Enable CORS for all routes
+app.use(cors()); // <-- This enables CORS for all routes
 app.use(express.json());
 app.use(router);
 
@@ -23,27 +26,25 @@ function getClientIp(req) {
   const xForwardedFor = req.headers['x-forwarded-for'];
   if (xForwardedFor) {
     const forwardedIps = xForwardedFor.split(',').map(ip => ip.trim());
-    return forwardedIps[0];  // Return the first IP in the list (client IP)
+    return forwardedIps[0];
   }
-  return req.ip;  // Fallback to req.ip if no X-Forwarded-For header exists
+  return req.ip;
 }
 
 // Updated endpoint to serve statistics
 app.get("/api-stats", async function (req, res) {
   const totalApis = global.api.size;
-
-  // Parse user-agent string to get browser details
   const agent = useragent.parse(req.headers['user-agent']);
 
   const stats = {
-    browserCodeName: agent.family, // Browser codename (family name)
-    browserName: agent.toAgent(),  // Browser name and version
-    browserLanguage: req.headers["accept-language"] || "en-US", // Accept-Language header
+    browserCodeName: agent.family,
+    browserName: agent.toAgent(),
+    browserLanguage: req.headers["accept-language"] || "en-US",
     cookie: true,
-    browserOnline: true, // Since the request was received, we assume the browser is online
+    browserOnline: true,
     platform: `${os.type()} ${os.arch()}`,
-    userAgent: req.headers['user-agent'], // Full user-agent string
-    ipAddress: getClientIp(req), // Get the client's actual IP address
+    userAgent: req.headers['user-agent'],
+    ipAddress: getClientIp(req),
     date: new Intl.DateTimeFormat("en-PH", {
       year: "numeric",
       month: "long",
